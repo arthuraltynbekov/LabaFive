@@ -58,7 +58,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         else -> 0
     }
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier
+        .fillMaxSize()
+        .padding(horizontal = 24.dp, vertical = 32.dp)) {
+
         Text(text = "Калькулятор чаевых")
 
         Row(
@@ -79,8 +82,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = "Количество блюд:")
-
-            var dishCount = remember { mutableStateOf("") }
 
             TextField(
                 value = dishCount.value,
@@ -106,19 +107,23 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             }
         }
 
-        Text(text = "Скидка")
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            listOf(3, 5, 7, 10).forEach { discount ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    RadioButton(
-                        selected = discountPercent == discount,
-                        onClick = null
-                    )
-                    Text(text = "$discount%")
+            Text(text = "Скидка:")
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                listOf(3, 5, 7, 10).forEach { discount ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(
+                            selected = discountPercent == discount,
+                            onClick = null
+                        )
+                        Text(text = "$discount%")
+                    }
                 }
             }
         }
