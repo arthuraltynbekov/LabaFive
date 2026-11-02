@@ -1,5 +1,8 @@
 package com.example.labafive
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Slider
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -42,6 +45,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     val orderAmount = remember { mutableStateOf("") }
+    val tipPercent = remember { mutableStateOf(0f) }
     Column(modifier = modifier) {
         Text(text = "Калькулятор чаевых")
 
@@ -71,6 +75,23 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
                 onValueChange = { dishCount.value = it },
                 label = { Text("Введите количество") }
             )
+        }
+
+        Text(text = "Чаевые: ${tipPercent.value.toInt()}%")
+        Column {
+            Slider(
+                value = tipPercent.value,
+                onValueChange = { tipPercent.value = it },
+                valueRange = 0f..25f
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = "0")
+                Text(text = "25")
+            }
         }
     }
 }
