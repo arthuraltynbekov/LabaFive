@@ -1,5 +1,6 @@
 package com.example.labafive
 
+import androidx.compose.material3.RadioButton
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Slider
@@ -45,7 +46,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     val orderAmount = remember { mutableStateOf("") }
+    val dishCount = remember { mutableStateOf("") }
     val tipPercent = remember { mutableStateOf(0f) }
+
+    val dishCountNumber = dishCount.value.toIntOrNull() ?: 0
+    val discountPercent = when {
+        dishCountNumber in 1..2 -> 3
+        dishCountNumber in 3..5 -> 5
+        dishCountNumber in 6..10 -> 7
+        dishCountNumber > 10 -> 10
+        else -> 0
+    }
+
     Column(modifier = modifier) {
         Text(text = "Калькулятор чаевых")
 
@@ -91,6 +103,23 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             ) {
                 Text(text = "0")
                 Text(text = "25")
+            }
+        }
+
+        Text(text = "Скидка")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            listOf(3, 5, 7, 10).forEach { discount ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RadioButton(
+                        selected = discountPercent == discount,
+                        onClick = null
+                    )
+                    Text(text = "$discount%")
+                }
             }
         }
     }
