@@ -1,5 +1,14 @@
 package com.example.labafive
 
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material3.TextField
+import androidx.compose.foundation.layout.Column
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,7 +28,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LabaFiveTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold( modifier = Modifier.fillMaxSize() ) { innerPadding ->
                     Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
@@ -32,10 +41,38 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+    val orderAmount = remember { mutableStateOf("") }
+    Column(modifier = modifier) {
+        Text(text = "Калькулятор чаевых")
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = "Сумма заказа:")
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            TextField(
+                value = orderAmount.value,
+                onValueChange = { orderAmount.value = it },
+                label = { Text("Введите сумму") }
+            )
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = "Количество блюд:")
+
+            var dishCount = remember { mutableStateOf("") }
+
+            TextField(
+                value = dishCount.value,
+                onValueChange = { dishCount.value = it },
+                label = { Text("Введите количество") }
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)
